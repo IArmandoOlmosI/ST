@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagina para mi Aeris</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Quicksand", sans-serif;
+        background-color: #fdf6f0;
+        color: #7a5c61;
+        padding: 2rem;
+        position: relative;
+        overflow-x: hidden;
+      }
+      h2 {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      p {
+        font-size: 1.1rem;
+        color: #5a3e42;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .video-container,
+      .collage,
+      .playlist {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: #fff0f5;
+        border-radius: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      }
+      iframe {
+        width: 100%;
+        height: 360px;
+        border: none;
+        border-radius: 12px;
+      }
+      .collage {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .collage img {
+        width: 180px;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .button-container {
+        text-align: center;
+        margin-top: 3rem;
+      }
+      button {
+        padding: 0.8rem 2rem;
+        background-color: #c96a85;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background-color: #a5506d;
+      }
+      .decor-divider {
+        text-align: center;
+        margin: 3rem 0;
+        font-size: 1.5rem;
+        color: #d78a9a;
+      }
+      .corner-flower {
+        position: absolute;
+        width: 100px;
+        opacity: 0.2;
+        pointer-events: none;
+      }
+      .top-left {
+        top: 0;
+        left: 0;
+      }
+      .top-right {
+        top: 0;
+        right: 0;
+        transform: scaleX(-1);
+      }
+      .bottom-left {
+        bottom: 0;
+        left: 0;
+        transform: scaleY(-1);
+      }
+      .bottom-right {
+        bottom: 0;
+        right: 0;
+        transform: scaleX(-1) scaleY(-1);
+      }
+      .heart {
+        position: fixed;
+        top: -20px;
+        width: 15px;
+        height: 15px;
+        background: pink;
+        transform: rotate(45deg);
+        animation: fall linear infinite, drift ease-in-out infinite;
+        opacity: 0.8;
+        z-index: 9999;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: inherit;
+        border-radius: 50%;
+      }
+      .heart::before {
+        top: -7.5px;
+        left: 0;
+      }
+      .heart::after {
+        left: -7.5px;
+        top: 0;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(45deg);
+          opacity: 0;
+        }
+      }
+      @keyframes drift {
+        0% {
+          margin-left: 0;
+        }
+        50% {
+          margin-left: 20px;
+        }
+        100% {
+          margin-left: 0;
+        }
+      }
+      #playlistModal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff0f5;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        text-align: center;
+      }
+      #playlistModal h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #c96a85;
+      }
+      #playlistModal a {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1.5rem;
+        background-color: #c96a85;
+        color: white;
+        text-decoration: none;
+        border-radius: 15px;
+      }
+      #playlistModal a:hover {
+        background-color: #a5506d;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      src="https://i.imgur.com/5oZ1qNM.png"
+      class="corner-flower top-left"
+      alt="Decoración floral"
+    />
+    <img
+      src="https://i.imgur.com/5oZ1qNM.png"
+      class="corner-flower top-right"
+      alt="Decoración floral"
+    />
+    <img
+      src="https://i.imgur.com/5oZ1qNM.png"
+      class="corner-flower bottom-left"
+      alt="Decoración floral"
+    />
+    <img
+      src="https://i.imgur.com/5oZ1qNM.png"
+      class="corner-flower bottom-right"
+      alt="Decoración floral"
+    />
+
+    <h2>Lo que siento por ti 💖</h2>
+
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/embed/vby_n_ztfFo"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div class="decor-divider">❀</div>
+    <p>
+      Quiero que sepas que esres todo para mi Aeris, te mao demasiado
+    </p>
+
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/embed/0y-q0wg0p8k"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div class="decor-divider">⋆｡°✩</div>
+    <p>Gracias por ser mi compañera en cada momento. Eres la mujer con la que tanto soñaba.</p>
+
+    <div class="collage">
+      <img src="img/c1.webp" alt="Foto 1" />
+      <img src="img/c10.jpg" alt="Foto 2" />
+      <img src="img/c11.webp" alt="Foto 3" />
+      <img src="img/c2.jpg" alt="Foto 4" />
+      <img src="img/c3.JPG" alt="Foto 1" />
+      <img src="img/c5.PNG" alt="Foto 1" />
+      <img src="img/c6.PNG" alt="Foto 1" />
+      <img src="img/c8.jpg" alt="Foto 1" />
+      <img src="img/c9.jpg" alt="Foto 1" />
+      <img src="img/fantasmas.jpg" alt="Foto 1" />
+      <img src="img/IMG20240912190139.jpg" alt="Foto 1" />
+      <img src="img/novios.jpg" alt="Foto 1" />
+      <img src="img/patos.JPG" alt="Foto 1" />
+      <img src="img/rojos.webp" alt="Foto 1" />
+      <!-- Puedes seguir agregando más imágenes -->
+    </div>
+
+    <div class="button-container">
+      <button onclick="showPlaylistModal()">🌸 Ver nuestra Playlist 🌸</button>
+    </div>
+
+    <div id="playlistModal">
+      <h3>
+        Canciones que me recuerdan a ti y me hacen sentir mucho amor por ti 💕
+      </h3>
+      <a
+        href="https://open.spotify.com/playlist/1QItJOeu5rUid5oQKqo1bV?si=239c0041af554dad&pt=07251b14e3cd50a2ca831bf011c87083"
+        target="_blank"
+        >Escuchar Playlist</a
+      >
+    </div>
+
+    <div class="button-container">
+
+      <button onclick="window.location.href='pagina1.html'">Regresar</button>
+      <button onclick="window.location.href='pagina3.html'">Ultima pagina</button>
+    
+    </div>
+
+    <script>
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration =
+          4 + Math.random() * 3 + "s, " + (2 + Math.random() * 2) + "s";
+        heart.style.background = `hsl(${Math.random() * 30 + 330}, 70%, 85%)`;
+        const size = Math.random() * 10 + 10;
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      setInterval(createHeart, 200);
+
+      function showPlaylistModal() {
+        const modal = document.getElementById("playlistModal");
+        modal.style.display = "block";
+        setTimeout(() => {
+          document.addEventListener("click", hidePlaylistModal);
+        }, 100);
+      }
+
+      function hidePlaylistModal(e) {
+        const modal = document.getElementById("playlistModal");
+        if (!modal.contains(e.target)) {
+          modal.style.display = "none";
+          document.removeEventListener("click", hidePlaylistModal);
+        }
+      }
+    </script>
+  </body>
+</html>

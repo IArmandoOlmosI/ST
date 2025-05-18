@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagina para mi Aeris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+        background-color: #fdf6f0;
+        color: #7a5c61;
+        padding: 2rem;
+        position: relative;
+        overflow-x: hidden;
+      }
+      h1 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #b54d6f;
+      }
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto 2rem;
+      }
+      video {
+        width: 100%;
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      }
+      .text-block {
+        max-width: 800px;
+        margin: 2rem auto 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #a14a6e;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      .button-container {
+        text-align: center;
+        margin-top: 3rem;
+      }
+      button {
+        padding: 0.8rem 2rem;
+        background-color: #c96a85;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background-color: #a5506d;
+      }
+      .heart {
+        position: fixed;
+        top: -20px;
+        width: 15px;
+        height: 15px;
+        background: pink;
+        transform: rotate(45deg);
+        animation: fall linear infinite, drift ease-in-out infinite;
+        opacity: 0.8;
+        z-index: 9999;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: inherit;
+        border-radius: 50%;
+      }
+      .heart::before { top: -7.5px; left: 0; }
+      .heart::after { left: -7.5px; top: 0; }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(45deg);
+          opacity: 0;
+        }
+      }
+      @keyframes drift {
+        0% { margin-left: 0; }
+        50% { margin-left: 20px; }
+        100% { margin-left: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Un pedacito más de nosotros 💕</h1>
+
+    <div class="video-grid">
+      <video controls src="videos/Besitoo.mp4"></video>
+      <video controls src="videos/carasbesos.mp4"></video>
+      <video controls src="videos/Beso.mp4"></video>
+      <video controls src="videos/1Ano.mp4"></video>
+      <video controls src="videos/Besoteee.mp4"></video>
+      <video controls src="videos/Hijos.mp4"></video>
+    </div>
+
+    <div class="text-block">
+      Cada uno de estos videos son evidencia que nos llevamos muy bien y tenemos una gran conexión.
+      Agradezco que seas la mujer de mi vida, TE AMO.
+    </div>
+
+    <div class="button-container">
+
+      <button onclick="window.location.href='pagina.html'">Regresar</button>
+      <button onclick="window.location.href='pagina2.html'">Siguiente</button>
+    
+    </div>
+
+    <script>
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s, " + (2 + Math.random() * 2) + "s";
+        heart.style.background = `hsl(${Math.random() * 30 + 330}, 70%, 85%)`;
+        const size = Math.random() * 10 + 10;
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      setInterval(createHeart, 200);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagina para mi Aeris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+        background-color: #fdf6f0;
+        color: #7a5c61;
+        padding: 2rem;
+        position: relative;
+        overflow-x: hidden;
+      }
+      h1 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #b54d6f;
+      }
+      .video-text-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2rem;
+        gap: 2rem;
+      }
+      .video-box, .text-box {
+        flex: 1 1 300px;
+        max-width: 500px;
+      }
+      iframe {
+        width: 100%;
+        height: 300px;
+        border-radius: 15px;
+        border: none;
+      }
+      .text-block {
+        max-width: 800px;
+        margin: 1rem auto;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #a14a6e;
+        text-align: center;
+        line-height: 1.5;
+      }
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .gallery img {
+        width: 200px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        background: white;
+        padding: 5px;
+      }
+      .button-container {
+        text-align: center;
+        margin-top: 3rem;
+      }
+      button {
+        padding: 0.8rem 2rem;
+        background-color: #c96a85;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background-color: #a5506d;
+      }
+      .heart {
+        position: fixed;
+        top: -20px;
+        width: 15px;
+        height: 15px;
+        background: pink;
+        transform: rotate(45deg);
+        animation: fall linear infinite, drift ease-in-out infinite;
+        opacity: 0.8;
+        z-index: 9999;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: inherit;
+        border-radius: 50%;
+      }
+      .heart::before { top: -7.5px; left: 0; }
+      .heart::after { left: -7.5px; top: 0; }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(45deg);
+          opacity: 0;
+        }
+      }
+      @keyframes drift {
+        0% { margin-left: 0; }
+        50% { margin-left: 20px; }
+        100% { margin-left: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nosotros en el tiempo... 💕</h1>
+
+    <div class="video-text-row">
+      
+      <div class="text-box">
+        <p class="text-block">Esta pagina esta hecha para ti amor, para recordar todo lo que hemos crecido como una pareja que se ama mucho</p>
+        
+      </div>
+    </div>
+
+    <div class="text-block">
+      Eres la razón por la que he sido un mejor hombre y realmente sacas lo mejor de mi.
+    </div>
+
+    <div class="text-block">
+      Gracias por ser mi compañera, mi apoyo y gracias por amarme tanto.
+    </div>
+
+    <div class="gallery">
+      <img src="img/1.jpg" alt="Foto 1">
+      <img src="img/2.jpg" alt="Foto 2">
+      <img src="img/3.jpg" alt="Foto 3">
+      <img src="img/4.jpg" alt="Foto 4">
+      <img src="img/5.jpg" alt="Foto 5">
+    </div>
+
+    <div class="button-container">
+      <button onclick="window.location.href='pagina1.html'">Siguiente 👉</button>
+    </div>
+
+    <script>
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s, " + (2 + Math.random() * 2) + "s";
+        heart.style.background = `hsl(${Math.random() * 30 + 330}, 70%, 85%)`;
+        const size = Math.random() * 10 + 10;
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+      setInterval(createHeart, 200);
+    </script>
+  </body>
+</html>

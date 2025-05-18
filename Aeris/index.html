@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Te Amo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: url('fondo-nosotros.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #7a5c61;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      animation: fadeInDown 2s ease;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #5a3e42;
+    }
+    .login-container {
+      background-color: rgba(242, 190, 203, 0.92); /* color más fuerte y romántico */
+      padding: 2.5rem;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      animation: fadeInUp 2s ease;
+    }
+    input[type="password"] {
+      padding: 0.6rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: none;
+      margin-top: 1rem;
+      width: 80%;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 15px;
+      background-color: #b54d6f;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #a34064;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .heart {
+      position: fixed;
+      top: -20px;
+      width: 15px;
+      height: 15px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: fall linear infinite, drift ease-in-out infinite;
+      opacity: 0.8;
+      z-index: 9999;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -7.5px;
+      left: 0;
+    }
+    .heart::after {
+      left: -7.5px;
+      top: 0;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+    @keyframes drift {
+      0% { margin-left: 0; }
+      50% { margin-left: 20px; }
+      100% { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Bienvenida mi amor ❤️</h2>
+    <p>Ingresa nuestra fecha especial</p>
+    <input type="password" id="password" placeholder="DDMMAAAA">
+    <br>
+    <button onclick="checkPassword()">Entrar</button>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const pass = document.getElementById('password').value;
+      if (pass === '17022023') {
+        window.location.href = 'pagina.html';
+      } else {
+        alert('jsjsjss Intenta con la fecha que salimos por primera vez ❤️');
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (4 + Math.random() * 3) + 's, ' + (2 + Math.random() * 2) + 's';
+      heart.style.background = `hsl(${Math.random() * 30 + 330}, 70%, 85%)`;
+      const size = Math.random() * 10 + 10;
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 200);
+  </script>
+</body>
+</html>
