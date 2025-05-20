@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'Gráficas de Análisis' %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 2rem;
+        }
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h2">📊 Análisis de Datos - Trabajadores</h1>
+                    <div>
+                        <a href="/tabla" class="btn btn-secondary me-2">
+                            ← Volver a la Tabla
+                        </a>
+                        <span class="badge bg-success">Admin: <%= user.nombre %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficas -->
+        <div class="row">
+            <!-- Gráfica de Categorías -->
+            <% if (graficaData && graficaData.labels.length > 0) { %>
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="stats-card">
+                    <h3 class="chart-title">Distribución por Categorías</h3>
+                    <div class="chart-container">
+                        <canvas id="categoriasChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- Gráfica de Grados Académicos -->
+            <% if (gradosData && gradosData.labels.length > 0) { %>
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="stats-card">
+                    <h3 class="chart-title">Distribución por Grados Académicos</h3>
+                    <div class="chart-container">
+                        <canvas id="gradosChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- Gráfica de Antigüedad -->
+            <% if (antiguedadData && antiguedadData.labels.length > 0) { %>
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="stats-card">
+                    <h3 class="chart-title">Distribución por Antigüedad UNAM</h3>
+                    <div class="chart-container">
+                        <canvas id="antiguedadChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- Gráfica de Género -->
+            <% if (generoData && generoData.labels.length > 0) { %>
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="stats-card">
+                    <h3 class="chart-title">Distribución por Género</h3>
+                    <div class="chart-container">
+                        <canvas id="generoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Mensaje si no hay datos -->
+        <% if ((!graficaData || graficaData.labels.length === 0) && 
+               (!gradosData || gradosData.labels.length === 0) && 
+               (!antiguedadData || antiguedadData.labels.length === 0) && 
+               (!generoData || generoData.labels.length === 0)) { %>
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4>📋 No hay datos para mostrar</h4>
+                    <p>No se encontraron trabajadores registrados para generar las gráficas.</p>
+                    <a href="/tabla" class="btn btn-primary">Ir a la tabla de trabajadores</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Configuración común para todas las gráficas
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        };
+
+        // Paleta de colores
+        const colors = [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+            '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
+            '#4BC0C0', '#36A2EB', '#FFCE56', '#9966FF'
+        ];
+
+        // Gráfica de Categorías
+        <% if (graficaData && graficaData.labels.length > 0) { %>
+        const categoriasCtx = document.getElementById('categoriasChart').getContext('2d');
+        new Chart(categoriasCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <%- JSON.stringify(graficaData.labels) %>,
+                datasets: [{
+                    data: <%- JSON.stringify(graficaData.valores) %>,
+                    backgroundColor: colors.slice(0, <%- graficaData.labels.length %>),
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Total de trabajadores por categoría'
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Gráfica de Grados Académicos
+        <% if (gradosData && gradosData.labels.length > 0) { %>
+        const gradosCtx = document.getElementById('gradosChart').getContext('2d');
+        new Chart(gradosCtx, {
+            type: 'pie',
+            data: {
+                labels: <%- JSON.stringify(gradosData.labels) %>,
+                datasets: [{
+                    data: <%- JSON.stringify(gradosData.valores) %>,
+                    backgroundColor: colors.slice(0, <%- gradosData.labels.length %>),
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Total de trabajadores por grado académico'
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Gráfica de Antigüedad
+        <% if (antiguedadData && antiguedadData.labels.length > 0) { %>
+        const antiguedadCtx = document.getElementById('antiguedadChart').getContext('2d');
+        new Chart(antiguedadCtx, {
+            type: 'bar',
+            data: {
+                labels: <%- JSON.stringify(antiguedadData.labels) %>,
+                datasets: [{
+                    label: 'Número de trabajadores',
+                    data: <%- JSON.stringify(antiguedadData.valores) %>,
+                    backgroundColor: '#36A2EB',
+                    borderColor: '#36A2EB',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Distribución por años de antigüedad en UNAM'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Gráfica de Género
+        <% if (generoData && generoData.labels.length > 0) { %>
+        const generoCtx = document.getElementById('generoChart').getContext('2d');
+        new Chart(generoCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <%- JSON.stringify(generoData.labels) %>,
+                datasets: [{
+                    data: <%- JSON.stringify(generoData.valores) %>,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'].slice(0, <%- generoData.labels.length %>),
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Distribución por género'
+                    }
+                }
+            }
+        });
+        <% } %>
+    </script>
+</body>
+</html>

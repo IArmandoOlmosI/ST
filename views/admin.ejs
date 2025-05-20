@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Secretaría Técnica</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    .drop-zone {
+      border: 2px dashed #007bff;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+    }
+    
+    .drop-zone:hover {
+      background-color: #e7f3ff;
+      border-color: #0056b3;
+    }
+    
+    .drop-zone.dragover {
+      background-color: #cce7ff;
+      border-color: #0056b3;
+      transform: scale(1.02);
+    }
+    
+    .drop-zone.error {
+      border-color: #dc3545;
+      background-color: #f8d7da;
+    }
+    
+    .upload-icon {
+      font-size: 3rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+    }
+    
+    .file-info {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    
+    .preview-table {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="/tabla">Sistema de Secretaría Técnica</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/tabla">
+              <i class="bi bi-table"></i> Ver Lista
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="bi bi-box-arrow-right"></i> Cerrar sesión (<%= user.username %>)
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Panel de Administración</h2>
+    
+    <!-- Formulario Individual -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5>Agregar Nuevo Trabajador</h5>
+      </div>
+      <div class="card-body">
+        <form action="/tabla/worker/add" method="POST">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="numero_trabajador" class="form-label">Número de Trabajador*</label>
+              <input type="text" class="form-control" id="numero_trabajador" name="numero_trabajador" required>
+            </div>
+            <div class="col-md-8">
+              <label for="nombre_completo" class="form-label">Nombre Completo*</label>
+              <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" required>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="genero" class="form-label">Género</label>
+              <select class="form-select" id="genero" name="genero">
+                <option value="">Seleccionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+                <option value="O">Otro</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="rfc" class="form-label">RFC</label>
+              <input type="text" class="form-control" id="rfc" name="rfc" maxlength="13">
+            </div>
+            <div class="col-md-4">
+              <label for="curp" class="form-label">CURP</label>
+              <input type="text" class="form-control" id="curp" name="curp" maxlength="18">
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="id_categoria" class="form-label">Categoría</label>
+              <select class="form-select" id="id_categoria" name="id_categoria">
+                <option value="">Seleccionar</option>
+                <% categorias.forEach(categoria => { %>
+                  <option value="<%= categoria.id_categoria %>"><%= categoria.nombre %></option>
+                <% }); %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="id_grado" class="form-label">Grado Académico</label>
+              <select class="form-select" id="id_grado" name="id_grado">
+                <option value="">Seleccionar</option>
+                <% grados.forEach(grado => { %>
+                  <option value="<%= grado.id_grado %>"><%= grado.nombre %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="antiguedad_unam" class="form-label">Antigüedad UNAM (años)</label>
+              <input type="number" class="form-control" id="antiguedad_unam" name="antiguedad_unam" min="0">
+            </div>
+            <div class="col-md-6">
+              <label for="antiguedad_carrera" class="form-label">Antigüedad en Carrera (años)</label>
+              <input type="number" class="form-control" id="antiguedad_carrera" name="antiguedad_carrera" min="0">
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="email_institucional" class="form-label">Email Institucional</label>
+              <input type="email" class="form-control" id="email_institucional" name="email_institucional">
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="telefono_casa" class="form-label">Teléfono Casa</label>
+              <input type="tel" class="form-control" id="telefono_casa" name="telefono_casa">
+            </div>
+            <div class="col-md-6">
+              <label for="telefono_celular" class="form-label">Teléfono Celular</label>
+              <input type="tel" class="form-control" id="telefono_celular" name="telefono_celular">
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <textarea class="form-control" id="direccion" name="direccion" rows="2"></textarea>
+          </div>
+          
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary">Guardar Trabajador</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- carga masiva CSV -->
+    <div class="card mt-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Carga Masiva de Trabajadores (CSV)</h5>
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#csvFormatModal">
+          <i class="bi bi-info-circle"></i> Formato CSV
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="drop-zone" id="dropZone">
+          <i class="bi bi-cloud-upload upload-icon"></i>
+          <h5>Arrastra tu archivo CSV aquí</h5>
+          <p class="text-muted">o haz clic para seleccionar un archivo</p>
+          <input type="file" id="csvFile" accept=".csv" style="display: none;">
+        </div>
+        
+        <div id="fileInfo" style="display: none;"></div>
+        <div id="previewContainer" style="display: none;">
+          <h6 class="mt-3">Vista previa de los datos:</h6>
+          <div class="preview-table">
+            <table class="table table-sm table-striped" id="previewTable">
+              <thead class="table-dark"></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="text-center mt-3">
+            <button type="button" class="btn btn-success" id="uploadBtn">
+              <i class="bi bi-upload"></i> Subir Trabajadores
+            </button>
+            <button type="button" class="btn btn-secondary ms-2" id="cancelBtn">
+              <i class="bi bi-x"></i> Cancelar
+            </button>
+          </div>
+        </div>
+        
+        <div id="uploadProgress" style="display: none;">
+          <div class="progress mt-3">
+            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+          </div>
+          <p class="text-center mt-2" id="progressText">Subiendo...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar el formato CSV -->
+  <div class="modal fade" id="csvFormatModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Formato requerido para el archivo CSV</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>El archivo CSV debe contener las siguientes columnas en este orden exacto:</p>
+          <ol>
+            <li><strong>numero_trabajador</strong> - Número único del trabajador (requerido)</li>
+            <li><strong>nombre_completo</strong> - Nombre completo del trabajador (requerido)</li>
+            <li><strong>genero</strong> - M (Masculino), F (Femenino), O (Otro) - opcional</li>
+            <li><strong>rfc</strong> - RFC del trabajador - opcional</li>
+            <li><strong>curp</strong> - CURP del trabajador - opcional</li>
+            <li><strong>id_categoria</strong> - ID de la categoría - opcional</li>
+            <li><strong>id_grado</strong> - ID del grado académico - opcional</li>
+            <li><strong>antiguedad_unam</strong> - Años de antigüedad en UNAM - opcional</li>
+            <li><strong>antiguedad_carrera</strong> - Años de antigüedad en carrera - opcional</li>
+            <li><strong>email_institucional</strong> - Email institucional - opcional</li>
+            <li><strong>telefono_casa</strong> - Teléfono de casa - opcional</li>
+            <li><strong>telefono_celular</strong> - Teléfono celular - opcional</li>
+            <li><strong>direccion</strong> - Dirección completa - opcional</li>
+          </ol>
+          <h6>Ejemplo:</h6>
+          <pre class="bg-light p-3">numero_trabajador,nombre_completo,genero,rfc,curp,id_categoria,id_grado,antiguedad_unam,antiguedad_carrera,email_institucional,telefono_casa,telefono_celular,direccion
+12345,Juan Pérez López,M,PELJ800101ABC,PELJ800101HDFRNN01,1,2,15,10,juan.perez@unam.mx,5551234567,5559876543,Calle Principal 123</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let csvData = [];
+    const expectedColumns = [
+      'numero_trabajador', 'nombre_completo', 'genero', 'rfc', 'curp',
+      'id_categoria', 'id_grado', 'antiguedad_unam', 'antiguedad_carrera',
+      'email_institucional', 'telefono_casa', 'telefono_celular', 'direccion'
+    ];
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('csvFile');
+    const fileInfo = document.getElementById('fileInfo');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewTable = document.getElementById('previewTable');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const uploadProgress = document.getElementById('uploadProgress');
+
+    // Eventos del drag and drop
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', handleDragOver);
+    dropZone.addEventListener('drop', handleDrop);
+    dropZone.addEventListener('dragleave', handleDragLeave);
+    fileInput.addEventListener('change', handleFileSelect);
+    uploadBtn.addEventListener('click', uploadCSVData);
+    cancelBtn.addEventListener('click', resetUpload);
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFile(files[0]);
+      }
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) {
+        handleFile(file);
+      }
+    }
+
+    function handleFile(file) {
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        showError('Por favor selecciona un archivo CSV válido.');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        showError('El archivo es demasiado grande. Máximo 5MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          parseCSV(e.target.result, file.name);
+        } catch (error) {
+          showError('Error al leer el archivo: ' + error.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCSV(csvText, fileName) {
+      const lines = csvText.trim().split('\n');
+      if (lines.length < 2) {
+        showError('El archivo CSV debe contener al menos una fila de encabezados y una fila de datos.');
+        return;
+      }
+
+      // Parse headers
+      const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+      
+      // Validate headers
+      const missingColumns = expectedColumns.filter(col => !headers.includes(col));
+      if (missingColumns.length > 0) {
+        showError(`Faltan las siguientes columnas: ${missingColumns.join(', ')}`);
+        return;
+      }
+
+      // Parse data
+      csvData = [];
+      for (let i = 1; i < lines.length; i++) {
+        if (lines[i].trim()) {
+          const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+          const row = {};
+          headers.forEach((header, index) => {
+            row[header] = values[index] || '';
+          });
+          csvData.push(row);
+        }
+      }
+
+      showFileInfo(fileName, csvData.length);
+      showPreview(csvData.slice(0, 5)); // Show first 5 rows
+    }
+
+    function showFileInfo(fileName, rowCount) {
+      fileInfo.innerHTML = `
+        <div class="file-info">
+          <i class="bi bi-file-earmark-text text-success"></i>
+          <strong>${fileName}</strong> - ${rowCount} trabajadores encontrados
+        </div>
+      `;
+      fileInfo.style.display = 'block';
+      dropZone.style.display = 'none';
+    }
+
+    function showPreview(data) {
+      const thead = previewTable.querySelector('thead');
+      const tbody = previewTable.querySelector('tbody');
+      
+      // Clear previous content
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      if (data.length === 0) return;
+
+      // Create header
+      const headerRow = document.createElement('tr');
+      Object.keys(data[0]).forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      // Create preview rows
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        Object.values(row).forEach(value => {
+          const td = document.createElement('td');
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+
+      previewContainer.style.display = 'block';
+    }
+
+    function showError(message) {
+      dropZone.classList.add('error');
+      dropZone.innerHTML = `
+        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 3rem;"></i>
+        <h5 class="text-danger">${message}</h5>
+        <button type="button" class="btn btn-outline-primary mt-2" onclick="resetUpload()">
+          Intentar de nuevo
+        </button>
+      `;
+    }
+
+    function resetUpload() {
+      dropZone.style.display = 'block';
+      dropZone.classList.remove('error');
+      dropZone.innerHTML = `
+        <i class="bi bi-cloud-upload upload-icon"></i>
+        <h5>Arrastra tu archivo CSV aquí</h5>
+        <p class="text-muted">o haz clic para seleccionar un archivo</p>
+        <input type="file" id="csvFile" accept=".csv" style="display: none;">
+      `;
+      
+      // Re-attach event listeners
+      const newDropZone = document.getElementById('dropZone');
+      const newFileInput = document.getElementById('csvFile');
+      newDropZone.addEventListener('click', () => newFileInput.click());
+      newDropZone.addEventListener('dragover', handleDragOver);
+      newDropZone.addEventListener('drop', handleDrop);
+      newDropZone.addEventListener('dragleave', handleDragLeave);
+      newFileInput.addEventListener('change', handleFileSelect);
+      
+      fileInfo.style.display = 'none';
+      previewContainer.style.display = 'none';
+      uploadProgress.style.display = 'none';
+      csvData = [];
+    }
+
+    async function uploadCSVData() {
+      if (csvData.length === 0) return;
+
+      uploadProgress.style.display = 'block';
+      uploadBtn.disabled = true;
+      
+      try {
+        const response = await fetch('/tabla/workers/bulk-add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ workers: csvData })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok) {
+          alert(`¡Éxito! Se agregaron ${result.success} trabajadores correctamente.`);
+          resetUpload();
+          // Optionally refresh the page or redirect
+          window.location.reload();
+        } else {
+          throw new Error(result.message || 'Error al subir los datos');
+        }
+      } catch (error) {
+        alert('Error al subir los datos: ' + error.message);
+        uploadBtn.disabled = false;
+        uploadProgress.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
